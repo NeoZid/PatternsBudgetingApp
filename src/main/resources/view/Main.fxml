@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="514.0" prefWidth="886.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MainController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="514.0" prefWidth="886.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MainController">
    <children>
       <Label layoutX="21.0" layoutY="8.0" prefHeight="50.0" prefWidth="261.0" text="Budgeting App">
          <font>
@@ -69,6 +69,6 @@
             <Font size="20.0" />
          </font>
       </Label>
-      <Button layoutX="217.0" layoutY="355.0" mnemonicParsing="false" text="Manage Categories" />
+      <Button fx:id="manageCategoriesButton" layoutX="217.0" layoutY="355.0" mnemonicParsing="false" onAction="#handleManageCategories" text="Manage Categories" />
    </children>
 </AnchorPane>

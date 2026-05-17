@@ -2,11 +2,15 @@ package controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import service.CategoryService;
+
+import java.io.IOException;
 
 public class AddCategoryController {
 	private CategoryService csv = new CategoryService();
@@ -37,13 +41,16 @@ public class AddCategoryController {
     }
 
     @FXML
-    public void handleCancel(ActionEvent event) {
-    	Stage stage = (Stage) cancelBtn.getScene().getWindow();
-    	stage.close();
+    public void handleCancel(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Category.fxml"));
+        Scene scene = new Scene(loader.load());
+        Stage stage = (Stage) cancelBtn.getScene().getWindow();
+        stage.setScene(scene);
+        stage.show();
     }
 
     @FXML
-    public void handleConfirm(ActionEvent event) {
+    public void handleConfirm(ActionEvent event) throws IOException {
     	String name = nameTf.getText();
     	String type = typeCb.getValue();
     	

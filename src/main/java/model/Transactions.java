@@ -9,9 +9,9 @@ public class Transactions {
 	private int userId;
 	private Integer categoryId;
 	
-	public Transactions(int transacId, double amount, String date,String description, String type, int userId, int categoryId) {
+	public Transactions(double amount, String date,String description, String type, int userId, int categoryId) {
 		super();
-		this.transacId = transacId;
+		this.transacId = 0;
 		this.amount = amount;
 		this.date = date;
 		this.description=description;
@@ -20,12 +20,19 @@ public class Transactions {
 		this.categoryId = categoryId;
 	}
 
+    public Transactions(int transacId, double amount, String date,String description, String type, int userId, int categoryId) {
+        super();
+        this.transacId = transacId;
+        this.amount = amount;
+        this.date = date;
+        this.description=description;
+        this.type=type;
+        this.userId = userId;
+        this.categoryId = categoryId;
+    }
+
 	public int getTransacId() {
 		return transacId;
-	}
-
-	public void setTransacId(int transacId) {
-		this.transacId = transacId;
 	}
 
 	public double getAmount() {

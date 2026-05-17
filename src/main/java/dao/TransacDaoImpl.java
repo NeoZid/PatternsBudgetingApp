@@ -25,7 +25,7 @@ public class TransacDaoImpl implements TransactionDAO{
 			if (rs.next()) {
 				
 				Transactions t = new Transactions(
-						rs.getInt("id"),
+                        rs.getInt("id"),
 						rs.getDouble("amount"),
 						rs.getString("date"),
 						rs.getString("description"),
@@ -57,7 +57,7 @@ public class TransacDaoImpl implements TransactionDAO{
 
             while(rs.next()) {
                 list.add(new Transactions(
-						rs.getInt("id"),
+                        rs.getInt("id"),
 						rs.getDouble("amount"),
 						rs.getString("date"),
 						rs.getString("description"),
@@ -70,13 +70,13 @@ public class TransacDaoImpl implements TransactionDAO{
         } catch(SQLException e){
             System.out.println(e.getMessage());
         }
-
+        System.out.println(list.size()); ///////
         return list;
 	}
 
 	@Override
 	public void saveTransaction(Transactions t) {
-		String sql = "INSERT INTO transacs (amount, date, description, type, user_id, category_id) VALUES (?,?,?,?,?,?,?)";
+		String sql = "INSERT INTO transacs (amount, date, description, type, user_id, category_id) VALUES (?,?,?,?,?,?)";
 		
 		try (Connection conn = DBConnection.getInstance().connect()){
 			PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -88,17 +88,17 @@ public class TransacDaoImpl implements TransactionDAO{
 			pstmt.setInt(5, t.getUserId());
 			
 			if(t.getCategoryId() != null) {
-	            pstmt.setInt(4, t.getCategoryId());
+	            pstmt.setInt(6, t.getCategoryId());
 			} else {
-	            pstmt.setNull(4, java.sql.Types.INTEGER);
+	            pstmt.setNull(6, java.sql.Types.INTEGER);
 			}
 			
 			pstmt.executeUpdate();
-			
+            System.out.println("Transaction saved successfully"); ///////
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}
-		
+
 	}
 
 	@Override
@@ -110,17 +110,19 @@ public class TransacDaoImpl implements TransactionDAO{
 			
 			pstmt.setDouble(1, t.getAmount());
 			pstmt.setString(2, t.getDate());
+            pstmt.setString(3, t.getDescription());
+            pstmt.setString(4, t.getType());
 			if(t.getCategoryId() != null)
-	            pstmt.setInt(3, t.getCategoryId());
+	            pstmt.setInt(5, t.getCategoryId());
 	        else
-	            pstmt.setNull(3, java.sql.Types.INTEGER);
-			pstmt.setInt(4, t.getTransacId());
+	            pstmt.setNull(5, java.sql.Types.INTEGER);
+			pstmt.setInt(6, t.getTransacId());
 			pstmt.executeUpdate();
 			
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}
-		
+
 	}
 
 	@Override

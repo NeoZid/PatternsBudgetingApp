@@ -52,6 +52,9 @@ public class MainController {
     private TableColumn<Transactions, String> typeCol;
 
     @FXML
+    private Button manageCategoriesButton;
+
+    @FXML
     public void initialize() {
     	
     	// we welcome the current user logged in
@@ -148,4 +151,17 @@ public class MainController {
     	}
     }
 
+    @FXML
+    public void handleManageCategories(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Category.fxml"));
+            Scene scene = new Scene(loader.load());
+            Stage stage = (Stage) addBtn.getScene().getWindow();
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
 }

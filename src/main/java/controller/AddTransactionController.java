@@ -75,9 +75,9 @@ public class AddTransactionController {
     		}
     		
     		if (isEditing) {
-    			tsv.updateTransaction(transactionId, amount, date, description, transactionType, categoryId);
+    			tsv.updateTransaction(amount, date, description, transactionType, userId, categoryId);
     		} else {
-    			tsv.saveTransaction(amount, date, description, transactionType, categoryId); 
+    			tsv.saveTransaction(amount, date, description, transactionType, userId, categoryId);
     		}
     		
     		handleCancel();

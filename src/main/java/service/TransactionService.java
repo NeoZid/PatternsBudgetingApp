@@ -39,22 +39,31 @@ public class TransactionService {
 		return transacDaoImpl.getTransactionByUser(userId);
 	}
 
-	public boolean saveTransaction(double amount, String date, String description, String transactionType,
-			Integer categoryId) {
-		return false;
-		// TODO Auto-generated method stub
-		
+	public boolean saveTransaction(double amount, String date,String description,
+                                   String type, int userId, int categoryId) {
+		if(amount == 0 || date == null || description.isEmpty()
+                || type.isBlank() || userId == 0 || categoryId == 0) {
+            return false;
+        }
+
+        transacDaoImpl.saveTransaction(new Transactions(amount, date, description, type, userId, categoryId));
+        return  true;
 	}
 
 	public void deleteTransaction(int transacId) {
-		// TODO Auto-generated method stub
+		transacDaoImpl.deleteTransaction(transacId);
 		
 	}
 
-	public boolean updateTransaction(int transactionId, double amount, String date, String description, String transactionType,
-			Integer categoryId) {
-		return false;
-		// TODO Auto-generated method stub
-		
+	public boolean updateTransaction(double amount, String date,String description,
+                                     String type, int userId, int categoryId) {
+        if(amount == 0 || date == null || description.isEmpty()
+                || type.isBlank() || userId == 0 || categoryId == 0) {
+            return false;
+        }
+
+        transacDaoImpl.updateTransaction(new Transactions(amount, date,
+                description, type, userId, categoryId));
+        return true;
 	}
 }
