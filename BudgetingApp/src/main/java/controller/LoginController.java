@@ -1,0 +1,49 @@
+package controller;
+
+import java.io.IOException;
+import java.util.Optional;
+
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
+import javafx.stage.Stage;
+import model.User;
+import service.UserService;
+import util.SessionManager;
+
+public class LoginController {
+	private UserService usv = new UserService();
+	@FXML
+	private TextField emailTf;
+	@FXML
+	private PasswordField passwordTf;
+	@FXML
+	private Button loginBtn, registerBtn;
+	
+	
+	@FXML
+	public void handleLogin() throws IOException {
+		String email = emailTf.getText();
+		String password = passwordTf.getText();
+		Optional<User> user = usv.userLogin(email, password);
+		if (user.isPresent()) {
+			SessionManager.getInstance().setUserLoggedIn(user.get());
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Main.fxml"));
+			Scene scene = new Scene(loader.load());
+			Stage stage = (Stage) loginBtn.getScene().getWindow();
+			stage.setScene(scene);
+			stage.show();
+		} else {
+			System.out.println("wrong user");
+		}
+	}
+	
+	@FXML
+	public void handleRegister() throws IOException {
+	    // TODO
+	}
+
+}

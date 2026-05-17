@@ -1,0 +1,89 @@
+package model;
+
+public class Transactions {
+	private int transacId;
+	private double amount;
+	private String date;
+	private String description;
+	private String type;
+	private int userId;
+	private Integer categoryId;
+	
+	public Transactions(int transacId, double amount, String date,String description, String type, int userId, int categoryId) {
+		super();
+		this.transacId = transacId;
+		this.amount = amount;
+		this.date = date;
+		this.description=description;
+		this.type=type;
+		this.userId = userId;
+		this.categoryId = categoryId;
+	}
+
+	public int getTransacId() {
+		return transacId;
+	}
+
+	public void setTransacId(int transacId) {
+		this.transacId = transacId;
+	}
+
+	public double getAmount() {
+		return amount;
+	}
+
+	public void setAmount(double amount) {
+		this.amount = amount;
+	}
+
+	public String getDate() {
+		return date;
+	}
+
+	public void setDate(String date) {
+		this.date = date;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public int getUserId() {
+		return userId;
+	}
+
+	public void setUserId(int userId) {
+		this.userId = userId;
+	}
+
+	public Integer getCategoryId() {
+		return categoryId;
+	}
+
+	public void setCategoryId(Integer categoryId) {
+		this.categoryId = categoryId;
+	}
+
+	@Override
+	public String toString() {
+		return "Transactions [transacId=" + transacId + ", amount=" + amount + ", date=" + date + ", description="
+				+ description + ", type=" + type + ", userId=" + userId + ", categoryId=" + categoryId + "]";
+	}
+	
+	
+	
+	
+
+}
