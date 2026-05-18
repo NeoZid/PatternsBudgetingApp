@@ -30,11 +30,45 @@ public class RegisterController {
 	}
 	
 	public void handleRegister() throws IOException {
+		
+		
 		String username = userReTf.getText();
 		String email = emailReTf.getText();
 		String password = passwordReTf.getText();
 		String currency = currencyCb.getValue();
-		if (usv.registerUser(username, email, password,currency)) {
+		
+		// check empty 
+		if (username.isEmpty() || email.isEmpty() || password.isEmpty()) {
+			showAlert("Please fill in all fields!");
+			return;
+		}
+		
+		// check email format 
+		if (!email.contains("@") || !email.contains(".")) {
+			showAlert("Please enter a valid email address!");
+			return;
+		}
+		
+		// pass length 
+		if (password.length() < 6) {
+			showAlert("Password must be atleast 6 characters!");
+			return;
+		}
+		
+		// user name length
+		if (username.length() < 3) {
+			showAlert("Username must atleast be 3 characters");
+			return;
+		}
+		 
+		if (currency == null) {
+			showAlert("Please select a currency!");
+			return;
+		}
+		
+		
+		
+		if (usv.registerUser(email, username, password,currency)) {
             ResourceBundle bundle = ResourceBundle.getBundle("i18n/messages", SessionManager.getInstance().getCurrentLocale());
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/LoginRegister.fxml"), bundle);
 			Scene scene = new Scene(loader.load());
@@ -42,7 +76,8 @@ public class RegisterController {
 			stage.setScene(scene);
 			stage.show();
 		} else {
-			System.out.println("fail");
+			showAlert("Registration failed!");
+			return;
 		}
 	}
 	
@@ -54,4 +89,13 @@ public class RegisterController {
 		stage.setScene(scene);
 		stage.show();
 	}
+	
+	// alert boxes helper method
+    private void showAlert(String message) {
+    	Alert alert = new Alert(Alert.AlertType.ERROR);
+    	alert.setTitle("Error");
+    	alert.setHeaderText(null);
+    	alert.setContentText(message);
+    	alert.showAndWait();
+    }
 }

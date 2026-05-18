@@ -5,6 +5,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -39,7 +40,7 @@ public class CategoryController {
     @FXML
     private Button editBtn;
     
-    
+    @FXML
     public void initialize() {
     	// setup columns, load categories
         nameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -74,7 +75,14 @@ public class CategoryController {
 
     @FXML
     public void handleDelete(ActionEvent event) {
+    	Category selected = categoryTv.getSelectionModel().getSelectedItem();
+    	if (selected == null) {
+    		showAlert("Please select a category first!");
+    		return;
+    	}
         csv.deleteCategory(categoryTv.getSelectionModel().getSelectedItem().getCategoryId());
+        int userId = SessionManager.getInstance().getUserLoggedIn().getUserId();
+        categoryTv.setItems(FXCollections.observableArrayList(csv.getCategoriesByUser(userId)));
     }
 
     @FXML
@@ -82,7 +90,7 @@ public class CategoryController {
         Category selected = categoryTv.getSelectionModel().getSelectedItem();
 
         if (selected == null) {
-            System.out.println("No category selected");
+            showAlert("No category selected");
             return;
         }
 
@@ -94,7 +102,7 @@ public class CategoryController {
             stage.setScene(scene);
             AddCategoryController addCategoryController = loader.getController();
             addCategoryController.setCategory(selected);
-            stage.show();
+            stage.showAndWait();
             int userId = SessionManager.getInstance().getUserLoggedIn().getUserId();
             categoryTv.setItems(FXCollections.observableArrayList(csv.getCategoriesByUser(userId)));
 
@@ -102,6 +110,14 @@ public class CategoryController {
         } catch (IOException e) {
 
         }
+    }
+    
+    private void showAlert(String message) {
+    	Alert alert = new Alert(Alert.AlertType.ERROR);
+    	alert.setTitle("Error");
+    	alert.setHeaderText(null);
+    	alert.setContentText(message);
+    	alert.showAndWait();
     }
 
 }

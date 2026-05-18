@@ -4,6 +4,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
@@ -71,6 +72,14 @@ public class AddCategoryController {
         ResourceBundle enBundle = ResourceBundle.getBundle("i18n/messages", Locale.ENGLISH);
         if (type.equals(enBundle.getString("app.income.type"))) return "Income";
         return "Expense";
+    }
+    
+    private void showAlert(String message) {
+    	Alert alert = new Alert(Alert.AlertType.ERROR);
+    	alert.setTitle("Error");
+    	alert.setHeaderText(null);
+    	alert.setContentText(message);
+    	alert.showAndWait();
     }
 
 }

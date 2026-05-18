@@ -9,7 +9,7 @@ public class Transactions {
 	private int userId;
 	private Integer categoryId;
 	
-	public Transactions(double amount, String date,String description, String type, int userId, int categoryId) {
+	public Transactions(double amount, String date,String description, String type, int userId, Integer categoryId) {
 		super();
 		this.transacId = 0;
 		this.amount = amount;
@@ -20,7 +20,7 @@ public class Transactions {
 		this.categoryId = categoryId;
 	}
 
-    public Transactions(int transacId, double amount, String date,String description, String type, int userId, int categoryId) {
+    public Transactions(int transacId, double amount, String date,String description, String type, int userId, Integer categoryId) {
         super();
         this.transacId = transacId;
         this.amount = amount;

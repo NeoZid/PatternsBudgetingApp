@@ -25,7 +25,7 @@ public class UserService {
     		return false;
     	}
     	
-        User user = new User(0, userName, email, password, defaultCurrency);
+        User user = new User(0, email, userName, password, defaultCurrency);
         return userDao.saveUser(user);
     }
 }

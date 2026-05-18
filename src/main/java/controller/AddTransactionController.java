@@ -11,6 +11,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.chart.PieChart;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
@@ -77,6 +78,23 @@ public class AddTransactionController {
     		if (transactionType.equals("Expense")) {
     			amount = -Math.abs(amount);
     		}
+    		
+    		// validation == null checks
+    		if (dateDp.getValue() == null) {
+    			showAlert("Please select a date!");
+    			return;
+    		}
+    		
+    		if (descriptionTb.getText().isEmpty()) {
+    			showAlert("Please enter a description!");
+    			return;
+    		}
+    		if (amountTb.getText().isEmpty()) {
+    			showAlert("Please enter an amount!");
+    			return;
+    		}
+    		
+    		
     		String description = descriptionTb.getText();
     		String date = dateDp.getValue().toString();
     		int userId = SessionManager.getInstance().getUserLoggedIn().getUserId();
@@ -89,7 +107,7 @@ public class AddTransactionController {
     		}
     		
     		if (isEditing) {
-    			tsv.updateTransaction(amount, date, description, transactionType, userId, categoryId);
+    			tsv.updateTransaction(transactionId,amount, date, description, transactionType, userId, categoryId);
     		} else {
     			tsv.saveTransaction(amount, date, description, transactionType, userId, categoryId);
     		}
@@ -106,6 +124,7 @@ public class AddTransactionController {
     }
 
 	public void setTransaction(Transactions t) {
+		
 		descriptionTb.setText(t.getDescription());
 		amountTb.setText(String.valueOf(Math.abs(t.getAmount())));
 		dateDp.setValue(LocalDate.parse(t.getDate()));
@@ -113,4 +132,12 @@ public class AddTransactionController {
 		this.transactionId=t.getTransacId();
 		this.isEditing=true;
 	}
+	
+	private void showAlert(String message) {
+    	Alert alert = new Alert(Alert.AlertType.ERROR);
+    	alert.setTitle("Error");
+    	alert.setHeaderText(null);
+    	alert.setContentText(message);
+    	alert.showAndWait();
+    }
 }
