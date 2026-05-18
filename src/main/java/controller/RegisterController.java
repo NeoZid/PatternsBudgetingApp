@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.IOException;
+import java.util.ResourceBundle;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -8,6 +9,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import service.UserService;
+import util.SessionManager;
 
 
 public class RegisterController {
@@ -33,7 +35,8 @@ public class RegisterController {
 		String password = passwordReTf.getText();
 		String currency = currencyCb.getValue();
 		if (usv.registerUser(username, email, password,currency)) {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/LoginRegister.fxml"));
+            ResourceBundle bundle = ResourceBundle.getBundle("i18n/messages", SessionManager.getInstance().getCurrentLocale());
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/LoginRegister.fxml"), bundle);
 			Scene scene = new Scene(loader.load());
 			Stage stage = (Stage) registerBtn.getScene().getWindow();
 			stage.setScene(scene);
@@ -44,7 +47,8 @@ public class RegisterController {
 	}
 	
 	public void handleBackToLogin() throws IOException {
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/LoginRegister.fxml"));
+        ResourceBundle bundle = ResourceBundle.getBundle("i18n/messages", SessionManager.getInstance().getCurrentLocale());
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/LoginRegister.fxml"), bundle);
 		Scene scene = new Scene(loader.load());
 		Stage stage = (Stage) registerBtn.getScene().getWindow();
 		stage.setScene(scene);

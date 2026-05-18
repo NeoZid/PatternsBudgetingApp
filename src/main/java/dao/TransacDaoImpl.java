@@ -70,7 +70,6 @@ public class TransacDaoImpl implements TransactionDAO{
         } catch(SQLException e){
             System.out.println(e.getMessage());
         }
-        System.out.println(list.size()); ///////
         return list;
 	}
 
@@ -94,11 +93,9 @@ public class TransacDaoImpl implements TransactionDAO{
 			}
 			
 			pstmt.executeUpdate();
-            System.out.println("Transaction saved successfully"); ///////
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}
-
 	}
 
 	@Override
@@ -122,7 +119,6 @@ public class TransacDaoImpl implements TransactionDAO{
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}
-
 	}
 
 	@Override

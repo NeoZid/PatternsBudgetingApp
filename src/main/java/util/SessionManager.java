@@ -10,7 +10,7 @@ public class SessionManager {
 	private static SessionManager instance;
 	
 	private User userLoggedIn;
-	private Locale local;
+    private Locale currentLocale = Locale.ENGLISH;
 	
 	private SessionManager() {}
 	
@@ -31,13 +31,11 @@ public class SessionManager {
 		this.userLoggedIn = userLoggedIn;
 	}
 
-	public Locale getLocal() {
-		return local;
-	}
+    public Locale getCurrentLocale() {
+        return currentLocale;
+    }
 
-	public void setLocal(Locale local) {
-		this.local = Locale.ENGLISH;
-	}
-	
-	
+    public void setCurrentLocale(Locale locale) {
+        this.currentLocale = locale;
+    }
 }

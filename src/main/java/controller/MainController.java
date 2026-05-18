@@ -1,7 +1,10 @@
 package controller;
 
 import java.io.IOException;
+import java.text.MessageFormat;
 import java.util.List;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -58,7 +61,8 @@ public class MainController {
     public void initialize() {
     	
     	// we welcome the current user logged in
-    	welcomeBackLabel.setText("Welcome Back," + SessionManager.getInstance().getUserLoggedIn().getUserName());
+        ResourceBundle bundle = ResourceBundle.getBundle("i18n/messages", SessionManager.getInstance().getCurrentLocale());
+        welcomeBackLabel.setText(MessageFormat.format(bundle.getString("app.welcome"), SessionManager.getInstance().getUserLoggedIn().getUserName()));
     	
     	// load transactions
     	int userId = SessionManager.getInstance().getUserLoggedIn().getUserId();
@@ -76,9 +80,13 @@ public class MainController {
     	descripCol.setCellValueFactory(new PropertyValueFactory<>("description"));
     	typeCol.setCellValueFactory(new PropertyValueFactory<>("type"));
     	amountCol.setCellValueFactory(new PropertyValueFactory<>("amount"));
-    	
-    	typeCb.getItems().addAll("Income" , "Expense");
-    	typeCb.setValue("Income");
+
+        currentBalanceLabel.setText(MessageFormat.format(bundle.getString("app.balance"), tsv.getTotalBalance(userId)));
+        totalIncomeLabel.setText(MessageFormat.format(bundle.getString("app.income"), tsv.getTotalIncome(userId)));
+        totalExpensesLabel.setText(MessageFormat.format(bundle.getString("app.expense"), tsv.getTotalExpense(userId)));
+
+        typeCb.getItems().addAll(bundle.getString("app.income.type"), bundle.getString("app.expense.type"));
+        typeCb.setValue(bundle.getString("app.income.type"));
     }
     
     
@@ -97,9 +105,10 @@ public class MainController {
 			
 			int userId = SessionManager.getInstance().getUserLoggedIn().getUserId();
 		    recentTransacsTv.setItems(FXCollections.observableArrayList(tsv.getTransactionsByUser(userId)));
-		    currentBalanceLabel.setText(String.valueOf(tsv.getTotalBalance(userId)));
-		    totalIncomeLabel.setText(String.valueOf(tsv.getTotalIncome(userId)));
-		    totalExpensesLabel.setText(String.valueOf(tsv.getTotalExpense(userId)));
+            ResourceBundle bundle = ResourceBundle.getBundle("i18n/messages", SessionManager.getInstance().getCurrentLocale());
+            currentBalanceLabel.setText(MessageFormat.format(bundle.getString("app.balance"), tsv.getTotalBalance(userId)));
+            totalIncomeLabel.setText(MessageFormat.format(bundle.getString("app.income"), tsv.getTotalIncome(userId)));
+            totalExpensesLabel.setText(MessageFormat.format(bundle.getString("app.expense"), tsv.getTotalExpense(userId)));
 			
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -119,9 +128,10 @@ public class MainController {
     	tsv.deleteTransaction(selected.getTransacId());
     	int userId = SessionManager.getInstance().getUserLoggedIn().getUserId();
 	    recentTransacsTv.setItems(FXCollections.observableArrayList(tsv.getTransactionsByUser(userId)));
-	    currentBalanceLabel.setText(String.valueOf(tsv.getTotalBalance(userId)));
-	    totalIncomeLabel.setText(String.valueOf(tsv.getTotalIncome(userId)));
-	    totalExpensesLabel.setText(String.valueOf(tsv.getTotalExpense(userId)));
+        ResourceBundle bundle = ResourceBundle.getBundle("i18n/messages", SessionManager.getInstance().getCurrentLocale());
+        currentBalanceLabel.setText(MessageFormat.format(bundle.getString("app.balance"), tsv.getTotalBalance(userId)));
+        totalIncomeLabel.setText(MessageFormat.format(bundle.getString("app.income"), tsv.getTotalIncome(userId)));
+        totalExpensesLabel.setText(MessageFormat.format(bundle.getString("app.expense"), tsv.getTotalExpense(userId)));
     }
 
     @FXML
@@ -143,9 +153,10 @@ public class MainController {
     		stage.showAndWait();
     		int userId = SessionManager.getInstance().getUserLoggedIn().getUserId();
     	    recentTransacsTv.setItems(FXCollections.observableArrayList(tsv.getTransactionsByUser(userId)));
-    	    currentBalanceLabel.setText(String.valueOf(tsv.getTotalBalance(userId)));
-    	    totalIncomeLabel.setText(String.valueOf(tsv.getTotalIncome(userId)));
-    	    totalExpensesLabel.setText(String.valueOf(tsv.getTotalExpense(userId)));
+            ResourceBundle bundle = ResourceBundle.getBundle("i18n/messages", SessionManager.getInstance().getCurrentLocale());
+            currentBalanceLabel.setText(MessageFormat.format(bundle.getString("app.balance"), tsv.getTotalBalance(userId)));
+            totalIncomeLabel.setText(MessageFormat.format(bundle.getString("app.income"), tsv.getTotalIncome(userId)));
+            totalExpensesLabel.setText(MessageFormat.format(bundle.getString("app.expense"), tsv.getTotalExpense(userId)));
     	} catch (IOException e) {
     		
     	}
@@ -154,7 +165,8 @@ public class MainController {
     @FXML
     public void handleManageCategories(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Category.fxml"));
+            ResourceBundle bundle = ResourceBundle.getBundle("i18n/messages", SessionManager.getInstance().getCurrentLocale());
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Category.fxml"), bundle);
             Scene scene = new Scene(loader.load());
             Stage stage = (Stage) addBtn.getScene().getWindow();
             stage.setScene(scene);
@@ -163,5 +175,39 @@ public class MainController {
             throw new RuntimeException(e);
         }
 
+    }
+
+    @FXML
+    public void handleEn(ActionEvent event) {
+        SessionManager.getInstance().setCurrentLocale(Locale.ENGLISH);
+        reloadScene();
+    }
+
+    @FXML
+    public void handleFr(ActionEvent event) {
+        SessionManager.getInstance().setCurrentLocale(Locale.FRENCH);
+        reloadScene();
+    }
+
+    private void reloadScene() {
+        try {
+            ResourceBundle bundle = ResourceBundle.getBundle("i18n/messages", SessionManager.getInstance().getCurrentLocale());
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Main.fxml"), bundle);
+            Scene scene = new Scene(loader.load());
+            Stage stage = (Stage) addBtn.getScene().getWindow();
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private String getEnglishType(String localizedType) {
+        ResourceBundle enBundle = ResourceBundle.getBundle("i18n/messages", Locale.ENGLISH);
+        if (localizedType.equals(enBundle.getString("app.income.type"))) {
+            return "Income";
+        } else {
+            return "Expense";
+        }
     }
 }

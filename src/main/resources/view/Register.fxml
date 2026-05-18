@@ -10,16 +10,16 @@
 
 <AnchorPane fx:id="registerAnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="494.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.RegisterController">
    <children>
-      <Label layoutX="234.0" layoutY="84.0" text="Register Page">
+      <Label layoutX="234.0" layoutY="84.0" text="%register.title">
          <font>
             <Font name="System Bold" size="22.0" />
          </font>
       </Label>
-      <TextField fx:id="emailReTf" layoutX="230.0" layoutY="189.0" promptText="Enter Email" />
-      <PasswordField fx:id="passwordReTf" layoutX="227.0" layoutY="235.0" promptText="Enter Password" />
-      <ComboBox fx:id="currencyCb" layoutX="226.0" layoutY="275.0" prefWidth="150.0" promptText="Select Currency" />
-      <TextField fx:id="userReTf" layoutX="230.0" layoutY="148.0" promptText="Enter Username" />
-      <Button fx:id="registerBtn" layoutX="270.0" layoutY="320.0" mnemonicParsing="false" onAction="#handleRegister" text="Register" />
-      <Button fx:id="returnLoginBtn" layoutX="14.0" layoutY="447.0" mnemonicParsing="false" onAction="#handleBackToLogin" text="Return Login Page" />
+      <TextField fx:id="emailReTf" layoutX="230.0" layoutY="189.0" promptText="%register.email" />
+      <PasswordField fx:id="passwordReTf" layoutX="227.0" layoutY="235.0" promptText="%register.password" />
+      <ComboBox fx:id="currencyCb" layoutX="226.0" layoutY="275.0" prefWidth="150.0" promptText="%register.currency" />
+      <TextField fx:id="userReTf" layoutX="230.0" layoutY="148.0" promptText="%register.username" />
+      <Button fx:id="registerBtn" layoutX="270.0" layoutY="320.0" mnemonicParsing="false" onAction="#handleRegister" text="%register.btn" />
+      <Button fx:id="returnLoginBtn" layoutX="14.0" layoutY="447.0" mnemonicParsing="false" onAction="#handleBackToLogin" text="%register.back" />
    </children>
 </AnchorPane>

@@ -11,11 +11,13 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import model.Category;
+import model.Transactions;
 import service.CategoryService;
 import util.SessionManager;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.ResourceBundle;
 
 public class CategoryController {
 	private CategoryService csv = new CategoryService();
@@ -52,7 +54,8 @@ public class CategoryController {
 
     @FXML
     public void handleAdd(ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/AddCategory.fxml"));
+        ResourceBundle bundle = ResourceBundle.getBundle("i18n/messages", SessionManager.getInstance().getCurrentLocale());
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/AddCategory.fxml"), bundle);
         Scene scene = new Scene(loader.load());
         Stage stage = (Stage) addBtn.getScene().getWindow();
         stage.setScene(scene);
@@ -61,7 +64,8 @@ public class CategoryController {
 
     @FXML
     public void handleBack(ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Main.fxml"));
+        ResourceBundle bundle = ResourceBundle.getBundle("i18n/messages", SessionManager.getInstance().getCurrentLocale());
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Main.fxml"), bundle);
         Scene scene = new Scene(loader.load());
         Stage stage = (Stage) addBtn.getScene().getWindow();
         stage.setScene(scene);
@@ -75,7 +79,29 @@ public class CategoryController {
 
     @FXML
     public void handleEdit(ActionEvent event) {
+        Category selected = categoryTv.getSelectionModel().getSelectedItem();
 
+        if (selected == null) {
+            System.out.println("No category selected");
+            return;
+        }
+
+        try {
+            ResourceBundle bundle = ResourceBundle.getBundle("i18n/messages", SessionManager.getInstance().getCurrentLocale());
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/AddCategory.fxml"), bundle);
+            Scene scene = new Scene(loader.load());
+            Stage stage = (Stage) addBtn.getScene().getWindow();
+            stage.setScene(scene);
+            AddCategoryController addCategoryController = loader.getController();
+            addCategoryController.setCategory(selected);
+            stage.show();
+            int userId = SessionManager.getInstance().getUserLoggedIn().getUserId();
+            categoryTv.setItems(FXCollections.observableArrayList(csv.getCategoriesByUser(userId)));
+
+
+        } catch (IOException e) {
+
+        }
     }
 
 }

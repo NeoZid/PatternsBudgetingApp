@@ -1,8 +1,11 @@
 package controller;
 
 import java.io.IOException;
+import java.util.Locale;
 import java.util.Optional;
+import java.util.ResourceBundle;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -31,7 +34,8 @@ public class LoginController {
 		Optional<User> user = usv.userLogin(email, password);
 		if (user.isPresent()) {
 			SessionManager.getInstance().setUserLoggedIn(user.get());
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Main.fxml"));
+            ResourceBundle bundle = ResourceBundle.getBundle("i18n/messages", SessionManager.getInstance().getCurrentLocale());
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Main.fxml"), bundle);
 			Scene scene = new Scene(loader.load());
 			Stage stage = (Stage) loginBtn.getScene().getWindow();
 			stage.setScene(scene);
@@ -40,14 +44,40 @@ public class LoginController {
 			System.out.println("wrong user");
 		}
 	}
-	
-	@FXML
-	public void handleRegister() throws IOException {
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Register.fxml"));
-		Scene scene = new Scene(loader.load());
-		Stage stage = (Stage) loginBtn.getScene().getWindow();
-		stage.setScene(scene);
-		stage.show();
-	}
+
+    @FXML
+    public void handleRegister() throws IOException {
+        ResourceBundle bundle = ResourceBundle.getBundle("i18n/messages", SessionManager.getInstance().getCurrentLocale());
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Register.fxml"), bundle);
+        Scene scene = new Scene(loader.load());
+        Stage stage = (Stage) loginBtn.getScene().getWindow();
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    @FXML
+    public void handleEn(ActionEvent event) {
+        SessionManager.getInstance().setCurrentLocale(Locale.ENGLISH);
+        reloadScene();
+    }
+
+    @FXML
+    public void handleFr(ActionEvent event) {
+        SessionManager.getInstance().setCurrentLocale(Locale.FRENCH);
+        reloadScene();
+    }
+
+    private void reloadScene() {
+        try {
+            ResourceBundle bundle = ResourceBundle.getBundle("i18n/messages", SessionManager.getInstance().getCurrentLocale());
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/LoginRegister.fxml"), bundle);
+            Scene scene = new Scene(loader.load());
+            Stage stage = (Stage) loginBtn.getScene().getWindow();
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
 }

@@ -10,20 +10,20 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.CategoryController">
    <children>
-      <Label layoutX="236.0" layoutY="28.0" text="Category">
+      <Label layoutX="236.0" layoutY="28.0" text="%category.title">
          <font>
             <Font name="System Bold" size="30.0" />
          </font>
       </Label>
       <TableView fx:id="categoryTv" layoutX="14.0" layoutY="88.0" prefHeight="300.0" prefWidth="401.0">
         <columns>
-          <TableColumn fx:id="nameCol" prefWidth="199.0" text="Name" />
-          <TableColumn fx:id="typeCol" prefWidth="201.0" text="Type" />
+          <TableColumn fx:id="nameCol" prefWidth="199.0" text="%category.name" />
+          <TableColumn fx:id="typeCol" prefWidth="201.0" text="%category.type" />
         </columns>
       </TableView>
-      <Button fx:id="addBtn" layoutX="434.0" layoutY="139.0" mnemonicParsing="false" onAction="#handleAdd" prefHeight="25.0" prefWidth="123.0" text="Add" />
-      <Button fx:id="editBtn" layoutX="434.0" layoutY="175.0" mnemonicParsing="false" onAction="#handleEdit" prefHeight="25.0" prefWidth="123.0" text="Edit" />
-      <Button fx:id="deleteBtn" layoutX="434.0" layoutY="213.0" mnemonicParsing="false" onAction="#handleDelete" prefHeight="25.0" prefWidth="123.0" text="Delete" />
-      <Button fx:id="backBtn" layoutX="435.0" layoutY="317.0" mnemonicParsing="false" onAction="#handleBack" prefHeight="25.0" prefWidth="123.0" text="Back to Main" />
+      <Button fx:id="addBtn" layoutX="434.0" layoutY="139.0" mnemonicParsing="false" onAction="#handleAdd" prefHeight="25.0" prefWidth="123.0" text="%category.add" />
+      <Button fx:id="editBtn" layoutX="434.0" layoutY="175.0" mnemonicParsing="false" onAction="#handleEdit" prefHeight="25.0" prefWidth="123.0" text="%category.edit" />
+      <Button fx:id="deleteBtn" layoutX="434.0" layoutY="213.0" mnemonicParsing="false" onAction="#handleDelete" prefHeight="25.0" prefWidth="123.0" text="%category.delete" />
+      <Button fx:id="backBtn" layoutX="435.0" layoutY="317.0" mnemonicParsing="false" onAction="#handleBack" prefHeight="25.0" prefWidth="123.0" text="%category.back" />
    </children>
 </AnchorPane>
