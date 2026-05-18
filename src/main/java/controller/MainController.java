@@ -4,13 +4,16 @@ import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.chart.PieChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -58,6 +61,9 @@ public class MainController {
     private Button manageCategoriesButton;
 
     @FXML
+    private PieChart spendingChart;
+
+    @FXML
     public void initialize() {
     	
     	// we welcome the current user logged in
@@ -87,6 +93,14 @@ public class MainController {
 
         typeCb.getItems().addAll(bundle.getString("app.income.type"), bundle.getString("app.expense.type"));
         typeCb.setValue(bundle.getString("app.income.type"));
+
+        // Pie chart initialising
+        Map<String, Double> spending = tsv.getSpendingByCategory(userId);
+        ObservableList<PieChart.Data> pieData = FXCollections.observableArrayList();
+        for (Map.Entry<String, Double> entry : spending.entrySet()) {
+            pieData.add(new PieChart.Data(entry.getKey(), entry.getValue()));
+        }
+        spendingChart.setData(pieData);
     }
     
     
@@ -109,7 +123,7 @@ public class MainController {
             currentBalanceLabel.setText(MessageFormat.format(bundle.getString("app.balance"), tsv.getTotalBalance(userId)));
             totalIncomeLabel.setText(MessageFormat.format(bundle.getString("app.income"), tsv.getTotalIncome(userId)));
             totalExpensesLabel.setText(MessageFormat.format(bundle.getString("app.expense"), tsv.getTotalExpense(userId)));
-			
+            refreshChart();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -132,6 +146,7 @@ public class MainController {
         currentBalanceLabel.setText(MessageFormat.format(bundle.getString("app.balance"), tsv.getTotalBalance(userId)));
         totalIncomeLabel.setText(MessageFormat.format(bundle.getString("app.income"), tsv.getTotalIncome(userId)));
         totalExpensesLabel.setText(MessageFormat.format(bundle.getString("app.expense"), tsv.getTotalExpense(userId)));
+        refreshChart();
     }
 
     @FXML
@@ -157,6 +172,7 @@ public class MainController {
             currentBalanceLabel.setText(MessageFormat.format(bundle.getString("app.balance"), tsv.getTotalBalance(userId)));
             totalIncomeLabel.setText(MessageFormat.format(bundle.getString("app.income"), tsv.getTotalIncome(userId)));
             totalExpensesLabel.setText(MessageFormat.format(bundle.getString("app.expense"), tsv.getTotalExpense(userId)));
+            refreshChart();
     	} catch (IOException e) {
     		
     	}
@@ -197,6 +213,7 @@ public class MainController {
             Stage stage = (Stage) addBtn.getScene().getWindow();
             stage.setScene(scene);
             stage.show();
+            refreshChart();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -209,5 +226,15 @@ public class MainController {
         } else {
             return "Expense";
         }
+    }
+
+    private void refreshChart() {
+        int userId = SessionManager.getInstance().getUserLoggedIn().getUserId();
+        Map<String, Double> spending = tsv.getSpendingByCategory(userId);
+        ObservableList<PieChart.Data> pieData = FXCollections.observableArrayList();
+        for (Map.Entry<String, Double> entry : spending.entrySet()) {
+            pieData.add(new PieChart.Data(entry.getKey(), entry.getValue()));
+        }
+        spendingChart.setData(pieData);
     }
 }

@@ -1,13 +1,16 @@
 package service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import dao.TransacDaoImpl;
 import model.Transactions;
 
 public class TransactionService {
 	private TransacDaoImpl transacDaoImpl = new TransacDaoImpl();
-	
+    private CategoryService csv = new CategoryService();
+
 	public double getTotalBalance(int userId) {
 		List<Transactions> transactions = transacDaoImpl.getTransactionByUser(userId);
 		double totalBalance = transactions.stream().mapToDouble(t -> t.getAmount()).sum();
@@ -66,4 +69,22 @@ public class TransactionService {
                 description, type, userId, categoryId));
         return true;
 	}
+
+    // latest feature, piechart with all expenses :
+
+    public Map<String, Double> getSpendingByCategory(int userId) {
+        List<Transactions> transactions = transacDaoImpl.getTransactionByUser(userId);
+        Map<String, Double> spendingMap = new HashMap<>();
+
+        for (Transactions t : transactions) {
+            if (t.getAmount() < 0) { // only expenses
+                String categoryName = t.getCategoryId() != null
+                        ? csv.getCategoryById(t.getCategoryId()).getName()
+                        : "Uncategorized";
+                spendingMap.put(categoryName,
+                        spendingMap.getOrDefault(categoryName, 0.0) + Math.abs(t.getAmount()));
+            }
+        }
+        return spendingMap;
+    }
 }

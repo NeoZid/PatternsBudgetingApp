@@ -3,8 +3,14 @@ package controller;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.ResourceBundle;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.chart.PieChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
@@ -42,6 +48,9 @@ public class AddTransactionController {
 
     @FXML
     private TextField descriptionTb;
+
+    @FXML
+    private PieChart spendingChart;
     
     @FXML
     public void initialize() {
@@ -51,11 +60,16 @@ public class AddTransactionController {
     		categoryCb.getItems().add(c.getName());
     	}
     }
-    
+
     public void setTransactionType(String type) {
-    	this.transactionType=type;
+        this.transactionType = toEnglishType(type);
     }
-    
+
+    private String toEnglishType(String type) {
+        ResourceBundle enBundle = ResourceBundle.getBundle("i18n/messages", Locale.ENGLISH);
+        if (type.equals(enBundle.getString("app.income.type"))) return "Income";
+        return "Expense";
+    }
     @FXML
     public void handleConfirm(){
     	try {
@@ -79,7 +93,6 @@ public class AddTransactionController {
     		} else {
     			tsv.saveTransaction(amount, date, description, transactionType, userId, categoryId);
     		}
-    		
     		handleCancel();
     	} catch (Exception e) {
     		System.out.println("Invalid Input" + e.getMessage());
@@ -99,7 +112,5 @@ public class AddTransactionController {
 		
 		this.transactionId=t.getTransacId();
 		this.isEditing=true;
-		
-		
 	}
 }
