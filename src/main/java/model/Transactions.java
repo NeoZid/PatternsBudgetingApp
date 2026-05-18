@@ -1,5 +1,9 @@
 package model;
 
+/**
+ * Model class representing a financial transaction.
+ * Transactions can be either Income or Expense and optionally linked to a category.
+ */
 public class Transactions {
 	private int transacId;
 	private double amount;
@@ -88,9 +92,4 @@ public class Transactions {
 		return "Transactions [transacId=" + transacId + ", amount=" + amount + ", date=" + date + ", description="
 				+ description + ", type=" + type + ", userId=" + userId + ", categoryId=" + categoryId + "]";
 	}
-	
-	
-	
-	
-
 }

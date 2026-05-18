@@ -27,6 +27,10 @@ import service.CategoryService;
 import service.TransactionService;
 import util.SessionManager;
 
+/**
+ * Controller for managing the Main view.
+ * Handles displaying transactions, balance summary, pie chart, and navigation.
+ */
 public class MainController {
 	private TransactionService tsv = new TransactionService();
 	private CategoryService csv = new CategoryService();
@@ -64,6 +68,10 @@ public class MainController {
     @FXML
     private PieChart spendingChart;
 
+    /**
+     * Initializes the controller, loads transactions, sets up table columns,
+     * displays balance summary, and loads the spending pie chart.
+     */
     @FXML
     public void initialize() {
     	
@@ -103,9 +111,12 @@ public class MainController {
         }
         spendingChart.setData(pieData);
     }
-    
-    
-    
+
+
+    /**
+     * Handles the add button, opens the AddTransaction view and refreshes data after closing.
+     * @param event the action event
+     */
     @FXML
     public void handleAdd(ActionEvent event) {
     	// we get value from type to differentiate
@@ -138,6 +149,10 @@ public class MainController {
     	
     }
 
+    /**
+     * Handles the delete button, deletes the selected transaction and refreshes data.
+     * @param event the action event
+     */
     @FXML
     public void handleDelete(ActionEvent event) {
     	Transactions selected = recentTransacsTv.getSelectionModel().getSelectedItem();
@@ -157,6 +172,10 @@ public class MainController {
         refreshChart();
     }
 
+    /**
+     * Handles the edit button, opens the AddTransaction view with selected transaction and refreshes data.
+     * @param event the action event
+     */
     @FXML
     public void handleEdit(ActionEvent event) {
     	Transactions selected = recentTransacsTv.getSelectionModel().getSelectedItem();
@@ -186,6 +205,10 @@ public class MainController {
     	}
     }
 
+    /**
+     * Handles the manage categories button, navigates to the Category view.
+     * @param event the action event
+     */
     @FXML
     public void handleManageCategories(ActionEvent event) {
         try {
@@ -201,18 +224,29 @@ public class MainController {
 
     }
 
+    /**
+     * Handles the English button, sets locale to English and reloads the scene.
+     * @param event the action event
+     */
     @FXML
     public void handleEn(ActionEvent event) {
         SessionManager.getInstance().setCurrentLocale(Locale.ENGLISH);
         reloadScene();
     }
 
+    /**
+     * Handles the French button, sets locale to French and reloads the scene.
+     * @param event the action event
+     */
     @FXML
     public void handleFr(ActionEvent event) {
         SessionManager.getInstance().setCurrentLocale(Locale.FRENCH);
         reloadScene();
     }
 
+    /**
+     * Reloads the Main scene with the current locale.
+     */
     private void reloadScene() {
         try {
             ResourceBundle bundle = ResourceBundle.getBundle("i18n/messages", SessionManager.getInstance().getCurrentLocale());
@@ -227,6 +261,11 @@ public class MainController {
         }
     }
 
+    /**
+     * Converts a localized type string to its English equivalent for DB storage.
+     * @param localizedType the localized type string
+     * @return the English type string ("Income" or "Expense")
+     */
     private String getEnglishType(String localizedType) {
         ResourceBundle enBundle = ResourceBundle.getBundle("i18n/messages", Locale.ENGLISH);
         if (localizedType.equals(enBundle.getString("app.income.type"))) {
@@ -236,6 +275,9 @@ public class MainController {
         }
     }
 
+    /**
+     * Refreshes the spending pie chart with the latest data for the current user.
+     */
     private void refreshChart() {
         int userId = SessionManager.getInstance().getUserLoggedIn().getUserId();
         Map<String, Double> spending = tsv.getSpendingByCategory(userId);

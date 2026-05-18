@@ -1,5 +1,9 @@
 package model;
 
+/**
+ * Model class representing a budget category.
+ * Categories are used to classify transactions as Income or Expense.
+ */
 public class Category {
 	private int categoryId;
 	private int userId;
@@ -40,7 +44,4 @@ public class Category {
 	public void setType(String type) {
 		this.type = type;
 	}
-	
-	
-	
 }

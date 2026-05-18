@@ -11,7 +11,10 @@ import javafx.stage.Stage;
 import service.UserService;
 import util.SessionManager;
 
-
+/**
+ * Controller for managing the Register view.
+ * Handles user registration and navigation back to the Login view.
+ */
 public class RegisterController {
 	UserService usv = new UserService();
 	@FXML
@@ -22,13 +25,19 @@ public class RegisterController {
 	private ComboBox<String> currencyCb;
 	@FXML
 	private Button registerBtn, returnLoginButton;
-	
-	
+
+    /**
+     * Initializes the controller, populates the currency ComboBox.
+     */
 	@FXML
 	public void initialize() {
 		currencyCb.getItems().addAll("CAD","USD","EUR","PHP");
 	}
-	
+
+    /**
+     * Handles the register button, registers the user and navigates to the Login view on success.
+     * @throws IOException if the FXML file cannot be loaded
+     */
 	public void handleRegister() throws IOException {
 		
 		
@@ -80,7 +89,11 @@ public class RegisterController {
 			return;
 		}
 	}
-	
+
+    /**
+     * Handles the back to login button, navigates back to the Login view.
+     * @throws IOException if the FXML file cannot be loaded
+     */
 	public void handleBackToLogin() throws IOException {
         ResourceBundle bundle = ResourceBundle.getBundle("i18n/messages", SessionManager.getInstance().getCurrentLocale());
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/LoginRegister.fxml"), bundle);

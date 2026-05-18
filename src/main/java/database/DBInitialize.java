@@ -5,7 +5,11 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class DBInitialize {
-	
+
+    /**
+     * Utility class for initializing the SQLite database schema.
+     * Creates all required tables if they do not already exist.
+     */
 	public static void initialize() {
 		String usersTable = "CREATE TABLE IF NOT EXISTS users (" +
 							"id INTEGER PRIMARY KEY AUTOINCREMENT, " +
@@ -44,8 +48,5 @@ public class DBInitialize {
 		} catch (SQLException e) {
 			System.out.println (e.getMessage());
 		}
-		
-		
-		
 	}
 }

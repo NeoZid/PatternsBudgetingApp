@@ -9,8 +9,17 @@ import util.SessionManager;
 
 import java.util.ResourceBundle;
 
-public class MainApp extends Application {
+/**
+ * Main entry point for the Budgeting Application.
+ * Initializes the database and launches the JavaFX UI.
+ */
 
+public class MainApp extends Application {
+    /**
+     * Starts the JavaFX application, loads the Login view with the current locale.
+     * @param stage the primary stage for the application
+     * @throws Exception if the FXML file cannot be loaded
+     */
     @Override
     public void start(Stage stage) throws Exception {
         ResourceBundle bundle = ResourceBundle.getBundle("i18n/messages", SessionManager.getInstance().getCurrentLocale());
@@ -20,7 +29,10 @@ public class MainApp extends Application {
         stage.setScene(scene);
         stage.show();
     }
-
+    /**
+     * Main method, initializes the database and launches the application.
+     * @param args command line arguments
+     */
     public static void main(String[] args) {
         DBInitialize.initialize(); // initialize DB before launching UI
         launch(args);

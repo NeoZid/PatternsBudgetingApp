@@ -18,6 +18,10 @@ import model.User;
 import service.UserService;
 import util.SessionManager;
 
+/**
+ * Controller for managing the Login view.
+ * Handles user authentication and navigation to registration.
+ */
 public class LoginController {
 	private UserService usv = new UserService();
 	@FXML
@@ -26,8 +30,11 @@ public class LoginController {
 	private PasswordField passwordTf;
 	@FXML
 	private Button loginBtn, registerBtn;
-	
-	
+
+    /**
+     * Handles the login button, authenticates the user and navigates to the Main view.
+     * @throws IOException if the FXML file cannot be loaded
+     */
 	@FXML
 	public void handleLogin() throws IOException {
 		
@@ -53,6 +60,10 @@ public class LoginController {
 		}
 	}
 
+    /**
+     * Handles the register button, navigates to the Register view.
+     * @throws IOException if the FXML file cannot be loaded
+     */
     @FXML
     public void handleRegister() throws IOException {
         ResourceBundle bundle = ResourceBundle.getBundle("i18n/messages", SessionManager.getInstance().getCurrentLocale());
@@ -63,18 +74,29 @@ public class LoginController {
         stage.show();
     }
 
+    /**
+     * Handles the English button, sets the locale to English and reloads the scene.
+     * @param event the action event
+     */
     @FXML
     public void handleEn(ActionEvent event) {
         SessionManager.getInstance().setCurrentLocale(Locale.ENGLISH);
         reloadScene();
     }
 
+    /**
+     * Handles the French button, sets the locale to French and reloads the scene.
+     * @param event the action event
+     */
     @FXML
     public void handleFr(ActionEvent event) {
         SessionManager.getInstance().setCurrentLocale(Locale.FRENCH);
         reloadScene();
     }
 
+    /**
+     * Reloads the Login scene with the current locale.
+     */
     private void reloadScene() {
         try {
             ResourceBundle bundle = ResourceBundle.getBundle("i18n/messages", SessionManager.getInstance().getCurrentLocale());

@@ -22,7 +22,10 @@ import model.Transactions;
 import service.CategoryService;
 import service.TransactionService;
 import util.SessionManager;
-
+/**
+ * Controller for managing the AddTransaction view.
+ * Handles adding and editing transactions for the current user.
+ */
 public class AddTransactionController {
 	
 	private TransactionService tsv = new TransactionService();
@@ -50,9 +53,9 @@ public class AddTransactionController {
     @FXML
     private TextField descriptionTb;
 
-    @FXML
-    private PieChart spendingChart;
-    
+    /**
+     * Initializes the controller, populates the category ComboBox with the user's categories.
+     */
     @FXML
     public void initialize() {
     	int userId = SessionManager.getInstance().getUserLoggedIn().getUserId();
@@ -62,15 +65,28 @@ public class AddTransactionController {
     	}
     }
 
+    /**
+     * Sets the transaction type, converting from localized to English for DB storage.
+     * @param type the localized transaction type
+     */
     public void setTransactionType(String type) {
         this.transactionType = toEnglishType(type);
     }
 
+    /**
+     * Converts a localized type string to its English equivalent for DB storage.
+     * @param type the localized type string
+     * @return the English type string ("Income" or "Expense")
+     */
     private String toEnglishType(String type) {
         ResourceBundle enBundle = ResourceBundle.getBundle("i18n/messages", Locale.ENGLISH);
         if (type.equals(enBundle.getString("app.income.type"))) return "Income";
         return "Expense";
     }
+
+    /**
+     * Handles the confirm button, saves or updates the transaction.
+     */
     @FXML
     public void handleConfirm(){
     	try {
@@ -116,13 +132,20 @@ public class AddTransactionController {
     		System.out.println("Invalid Input" + e.getMessage());
     	}
     }
-    
+
+    /**
+     * Handles the cancel button, closes the current stage.
+     */
     @FXML
     public void handleCancel() {
     	Stage stage = (Stage) cancelBtn.getScene().getWindow();
     	stage.close();
     }
 
+    /**
+     * Populates the form fields with an existing transaction for editing.
+     * @param t the transaction to edit
+     */
 	public void setTransaction(Transactions t) {
 		
 		descriptionTb.setText(t.getDescription());

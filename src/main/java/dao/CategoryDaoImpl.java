@@ -11,9 +11,17 @@ import java.util.Optional;
 import database.DBConnection;
 import model.Category;
 
-
+/**
+ * Implementation of CategoryDAO interface.
+ * Handles all database operations for Category using SQLite.
+ */
 public class CategoryDaoImpl implements CategoryDAO{
 
+    /**
+     * Retrieves a category by its ID.
+     * @param id the category ID
+     * @return an Optional containing the category if found, empty otherwise
+     */
 	@Override
 	public Optional<Category> getCategoryById(int id) {
 		String sql = "SELECT * FROM categories WHERE id = ?";
@@ -40,6 +48,11 @@ public class CategoryDaoImpl implements CategoryDAO{
 		return Optional.empty();
 	}
 
+    /**
+     * Retrieves all categories belonging to a specific user.
+     * @param userId the user ID
+     * @return list of categories for the user
+     */
 	@Override
 	public List<Category> getCategoriesByUser(int userId) {
 		List<Category> list = new ArrayList<>();
@@ -67,6 +80,10 @@ public class CategoryDaoImpl implements CategoryDAO{
         return list;
 	}
 
+    /**
+     * Saves a new category to the database.
+     * @param c the category to save
+     */
 	@Override
 	public void saveCategory(Category c) {
 		String sql = "INSERT INTO categories (name, type, user_id) VALUES (?,?,?)";
@@ -85,6 +102,10 @@ public class CategoryDaoImpl implements CategoryDAO{
 		
 	}
 
+    /**
+     * Updates an existing category in the database.
+     * @param c the category with updated values
+     */
 	@Override
 	public void updateCategory(Category c) {
 		String sql = "UPDATE categories SET name=?, type =? WHERE id=?";
@@ -102,6 +123,10 @@ public class CategoryDaoImpl implements CategoryDAO{
 		}
 	}
 
+    /**
+     * Deletes a category by its ID.
+     * @param id the ID of the category to delete
+     */
 	@Override
 	public void deleteCategory(int id) {
 		String sql = "DELETE FROM categories WHERE id=?";

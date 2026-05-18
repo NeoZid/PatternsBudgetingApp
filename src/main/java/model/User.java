@@ -6,8 +6,11 @@ public class User {
 	private String userName;
 	private String password;
 	private String defaultCurrency; // CAD, US, YEN, EUR
-	
-	
+
+    /**
+     * Model class representing an application user.
+     * Stores user credentials and preferences.
+     */
 	public User(int userId, String email, String userName, String password, String defaultCurrency) {
 		super();
 		this.userId = userId;

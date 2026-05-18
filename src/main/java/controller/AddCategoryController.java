@@ -16,6 +16,9 @@ import java.io.IOException;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+/**
+ * Controller to manage the AddCategory FXML
+ */
 public class AddCategoryController {
 	private CategoryService csv = new CategoryService();
 	private int categoryId;
@@ -31,20 +34,32 @@ public class AddCategoryController {
 
     @FXML
     private ComboBox<String> typeCb;
-    
+
+    /**
+     * Populates the form fields with an existing category for editing.
+     * @param c the category to edit
+     */
     public void setCategory(model.Category c) {
     	nameTf.setText(c.getName());
     	typeCb.setValue(c.getType());
     	this.categoryId=c.getCategoryId();
     	this.isEditing=true;
     }
-    
+
+    /**
+     * Initializes the controller, populates the type ComboBox with localized values.
+     */
     @FXML
     public void initialize() {
         ResourceBundle bundle = ResourceBundle.getBundle("i18n/messages", SessionManager.getInstance().getCurrentLocale());
         typeCb.getItems().addAll(bundle.getString("app.income.type"), bundle.getString("app.expense.type"));
     }
 
+    /**
+     * Handles the cancel button, navigates back to the Category view.
+     * @param event the action event
+     * @throws IOException if the FXML file cannot be loaded
+     */
     @FXML
     public void handleCancel(ActionEvent event) throws IOException {
         ResourceBundle bundle = ResourceBundle.getBundle("i18n/messages", SessionManager.getInstance().getCurrentLocale());
@@ -55,6 +70,11 @@ public class AddCategoryController {
         stage.show();
     }
 
+    /**
+     * Handles the confirm button, saves or updates the category.
+     * @param event the action event
+     * @throws IOException if navigation fails
+     */
     @FXML
     public void handleConfirm(ActionEvent event) throws IOException {
         String name = nameTf.getText();
@@ -67,7 +87,12 @@ public class AddCategoryController {
     	}
     	handleCancel(event);
     }
-
+    /**
+     * Converts a localized type string back to its English equivalent for DB storage so it doesn't break the DB since
+     * it only recognises it in English
+     * @param type the localized type string
+     * @return the English type string ("Income" or "Expense")
+     */
     private String toEnglishType(String type) {
         ResourceBundle enBundle = ResourceBundle.getBundle("i18n/messages", Locale.ENGLISH);
         if (type.equals(enBundle.getString("app.income.type"))) return "Income";

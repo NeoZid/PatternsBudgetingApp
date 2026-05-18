@@ -14,6 +14,10 @@ import model.Transactions;
 
 public class TransacDaoImpl implements TransactionDAO{
 
+    /**
+     * Implementation of TransactionDAO interface.
+     * Handles all database operations for Transactions using SQLite.
+     */
 	@Override
 	public Optional<Transactions> getTransactionById(int id) {
 		String sql = "SELECT * FROM transacs WHERE id = ?";
@@ -44,6 +48,11 @@ public class TransacDaoImpl implements TransactionDAO{
 		return Optional.empty();
 	}
 
+    /**
+     * Retrieves all transactions belonging to a specific user.
+     * @param userId the user ID
+     * @return list of transactions for the user
+     */
 	@Override
 	public List<Transactions> getTransactionByUser(int userId) {
 		List<Transactions> list = new ArrayList<>();
@@ -73,6 +82,10 @@ public class TransacDaoImpl implements TransactionDAO{
         return list;
 	}
 
+    /**
+     * Saves a new transaction to the database.
+     * @param t the transaction to save
+     */
 	@Override
 	public void saveTransaction(Transactions t) {
 		String sql = "INSERT INTO transacs (amount, date, description, type, user_id, category_id) VALUES (?,?,?,?,?,?)";
@@ -98,6 +111,10 @@ public class TransacDaoImpl implements TransactionDAO{
 		}
 	}
 
+    /**
+     * Updates an existing transaction in the database.
+     * @param t the transaction with updated values
+     */
 	@Override
 	public void updateTransaction(Transactions t) {
 		String sql = "UPDATE transacs SET amount=?, date =?,description=?, type=?, category_id=? WHERE id=?";
@@ -121,6 +138,10 @@ public class TransacDaoImpl implements TransactionDAO{
 		}
 	}
 
+    /**
+     * Deletes a transaction by its ID.
+     * @param id the ID of the transaction to delete
+     */
 	@Override
 	public void deleteTransaction(int id) {
 		String sql = "DELETE FROM transacs WHERE id=?";
