@@ -45,7 +45,7 @@ public class TransactionService {
 	public boolean saveTransaction(double amount, String date,String description,
                                    String type, int userId, int categoryId) {
 		if(amount == 0 || date == null || description.isEmpty()
-                || type.isBlank() || userId == 0 || categoryId == 0) {
+                || type.isBlank() || userId == 0) {
             return false;
         }
 
@@ -58,14 +58,14 @@ public class TransactionService {
 		
 	}
 
-	public boolean updateTransaction(double amount, String date,String description,
-                                     String type, int userId, int categoryId) {
+	public boolean updateTransaction(int transactionId, double amount, String date,String description,
+                                     String type, int userId, Integer categoryId) {
         if(amount == 0 || date == null || description.isEmpty()
                 || type.isBlank() || userId == 0 || categoryId == 0) {
             return false;
         }
 
-        transacDaoImpl.updateTransaction(new Transactions(amount, date,
+        transacDaoImpl.updateTransaction(new Transactions(transactionId, amount, date,
                 description, type, userId, categoryId));
         return true;
 	}
@@ -73,6 +73,9 @@ public class TransactionService {
     // latest feature, piechart with all expenses :
 
     public Map<String, Double> getSpendingByCategory(int userId) {
+    	
+    	
+    	
         List<Transactions> transactions = transacDaoImpl.getTransactionByUser(userId);
         Map<String, Double> spendingMap = new HashMap<>();
 

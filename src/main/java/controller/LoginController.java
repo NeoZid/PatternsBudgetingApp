@@ -9,6 +9,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -29,6 +30,12 @@ public class LoginController {
 	
 	@FXML
 	public void handleLogin() throws IOException {
+		
+		// checks if email and password is empty
+		if (emailTf.getText().isEmpty() || passwordTf.getText().isEmpty()) {
+			showAlert("Please fill in all fields!");
+			return;
+		}
 		String email = emailTf.getText();
 		String password = passwordTf.getText();
 		Optional<User> user = usv.userLogin(email, password);
@@ -41,7 +48,8 @@ public class LoginController {
 			stage.setScene(scene);
 			stage.show();
 		} else {
-			System.out.println("wrong user");
+			showAlert("Invalid email or password!!");
+			return;
 		}
 	}
 
@@ -78,6 +86,16 @@ public class LoginController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        
+    }
+    
+    // alert boxes helper method
+    private void showAlert(String message) {
+    	Alert alert = new Alert(Alert.AlertType.ERROR);
+    	alert.setTitle("Error");
+    	alert.setHeaderText(null);
+    	alert.setContentText(message);
+    	alert.showAndWait();
     }
 
 }

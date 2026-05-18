@@ -14,6 +14,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.chart.PieChart;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -108,7 +109,14 @@ public class MainController {
     @FXML
     public void handleAdd(ActionEvent event) {
     	// we get value from type to differentiate
-    	String type = typeCb.getValue();
+    	
+    	if (typeCb.getValue() == null) {
+    		showAlert("Please select a type first!");
+    		return;
+    	} 
+    	String type = getEnglishType(typeCb.getValue());
+    	
+    	
     	FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/AddTransaction.fxml")); // gets methods from AddTransaction
     	Stage stage = new Stage();
     	try {
@@ -135,7 +143,7 @@ public class MainController {
     	Transactions selected = recentTransacsTv.getSelectionModel().getSelectedItem();
     	
     	if (selected == null) {
-    		System.out.println("No transactions selected");
+    		showAlert("No transactions selected");
     		return;
     	}
     	
@@ -154,8 +162,8 @@ public class MainController {
     	Transactions selected = recentTransacsTv.getSelectionModel().getSelectedItem();
     	
     	if (selected == null) {
-    		System.out.println("No transactions selected");
-    		return;
+    		showAlert("Please select a transaction first!");
+			return;
     	}
     	
     	try {
@@ -236,5 +244,14 @@ public class MainController {
             pieData.add(new PieChart.Data(entry.getKey(), entry.getValue()));
         }
         spendingChart.setData(pieData);
+    }
+    
+    // alert boxes helper method
+    private void showAlert(String message) {
+    	Alert alert = new Alert(Alert.AlertType.ERROR);
+    	alert.setTitle("Error");
+    	alert.setHeaderText(null);
+    	alert.setContentText(message);
+    	alert.showAndWait();
     }
 }
